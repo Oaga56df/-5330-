@@ -74,479 +74,591 @@
         .nav-scrolled {
             @apply bg-white/95 shadow-md backdrop-blur-sm;
         }
+
+        /* IP Restriction Styles */
+        #accessRestricted {
+            display: none;
+            min-height: 100vh;
+        }
+        #pageContent {
+            display: none;
+        }
+        #loadingScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0066CC;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-light font-inter text-dark">
-    <!-- Navigation Bar -->
-    <header id="navbar" class="fixed w-full top-0 z-50 transition-custom py-4">
-        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-2">
-                <span class="text-primary text-2xl font-bold">AU</span>
-                <span class="text-dark font-semibold text-xl">Crypto Hub</span>
-            </a>
-            
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#home" class="font-medium hover:text-primary transition-custom">Home</a>
-                <a href="#services" class="font-medium hover:text-primary transition-custom">Core Services</a>
-                <a href="#market" class="font-medium hover:text-primary transition-custom">Market Updates</a>
-                <a href="#faq" class="font-medium hover:text-primary transition-custom">FAQs</a>
-                <!-- WhatsApp Contact Button with Direct Link -->
-                <a href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20your%20cryptocurrency%20services" 
-                   target="_blank" 
-                   class="bg-whatsapp text-white px-6 py-2 rounded-lg hover:bg-whatsapp/90 transition-custom font-medium">
-                    <i class="fab fa-whatsapp mr-2"></i>Contact Us
-                </a>
-            </nav>
-            
-            <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-dark text-2xl">
-                <i class="fas fa-bars"></i>
-            </button>
+    <!-- IP验证加载页面 -->
+    <div id="loadingScreen" class="bg-light">
+        <div class="text-center">
+            <div class="loader mx-auto mb-4"></div>
+            <p class="text-gray-600">Verifying your access... Please wait</p>
         </div>
-        
-        <!-- Mobile Navigation Menu -->
-        <div id="mobileMenu" class="md:hidden hidden bg-white absolute w-full top-full left-0 shadow-lg py-4 px-4">
-            <nav class="flex flex-col gap-4">
-                <a href="#home" class="font-medium py-2 hover:text-primary transition-custom">Home</a>
-                <a href="#services" class="font-medium py-2 hover:text-primary transition-custom">Core Services</a>
-                <a href="#market" class="font-medium py-2 hover:text-primary transition-custom">Market Updates</a>
-                <a href="#faq" class="font-medium py-2 hover:text-primary transition-custom">FAQs</a>
-                <!-- WhatsApp Contact Button with Direct Link -->
-                <a href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20your%20cryptocurrency%20services" 
-                   target="_blank" 
-                   class="bg-whatsapp text-white px-6 py-3 rounded-lg hover:bg-whatsapp/90 transition-custom font-medium text-center">
-                    <i class="fab fa-whatsapp mr-2"></i>Contact Us
-                </a>
-            </nav>
-        </div>
-    </header>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-light to-white">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
-                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow mb-6">
-                        Australia's <span class="text-primary">Cryptocurrency</span>
-                        <br>One-Stop Service Platform
-                    </h1>
-                    <p class="text-lg text-gray-600 mb-8 max-w-lg">
-                        Compliant cryptocurrency trading, custody and investment services tailored for Australian users. 
-                        Regulated by ASIC, secure and reliable, start your digital asset journey with ease.
-                    </p>
-                    <!-- WhatsApp Button with Pre-filled Message -->
-                    <div class="flex justify-center sm:justify-start">
-                        <!-- 修改：将button改为a标签，直接使用href跳转，更符合语义和用户体验 -->
-                        <a id="contactButton" 
-                           href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20crypto%20services"
-                           target="_blank"
-                           class="bg-whatsapp text-white px-8 py-3 rounded-lg hover:bg-whatsapp/90 transition-custom font-semibold text-center flex items-center gap-2">
-                            <i class="fab fa-whatsapp"></i>
-                            Contact Me on WhatsApp
-                        </a>
-                    </div>
-                    <!-- Trust Indicators -->
-                    <div class="mt-12 flex flex-col gap-4">
-                        <p class="text-sm text-gray-500">Trusted by Australian users and institutions</p>
-                        <div class="flex flex-wrap gap-6 items-center">
-                            <span class="text-gray-400 text-sm">ASIC Regulated</span>
-                            <span class="text-gray-400 text-sm">Australian Local Team</span>
-                            <span class="text-gray-400 text-sm">1M+ Users</span>
-                        </div>
-                    </div>
+    <!-- 访问受限页面 -->
+    <div id="accessRestricted" class="bg-light">
+        <div class="container mx-auto px-4 md:px-8 h-full flex items-center justify-center py-20">
+            <div class="max-w-lg text-center">
+                <div class="text-primary text-6xl mb-6">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-                <div class="md:w-1/2">
-                    <img src="https://picsum.photos/seed/aucrypto/800/600" alt="Australian Cryptocurrency Trading Platform" class="rounded-xl shadow-2xl w-full">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Core Services -->
-    <section id="services" class="py-20 bg-white">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Our Core Services</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Tailored cryptocurrency solutions for the Australian market - compliant, secure and convenient</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service Card 1 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Compliant Crypto Trading</h3>
-                    <p class="text-gray-600 mb-4">Instant AUD to major cryptocurrency exchange, strictly regulated by ASIC with trading fees as low as 0.1%.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20compliant%20crypto%20trading" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-                
-                <!-- Service Card 2 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Secure Asset Custody</h3>
-                    <p class="text-gray-600 mb-4">Australian local cold wallet storage, multi-signature verification, asset insurance coverage to protect your digital assets.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20secure%20asset%20custody" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-                
-                <!-- Service Card 3 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Investment Advisory</h3>
-                    <p class="text-gray-600 mb-4">Licensed Australian financial advisors provide crypto asset allocation advice to help you make informed investment decisions.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20investment%20advisory%20services" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-                
-                <!-- Service Card 4 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Tax Compliance Services</h3>
-                    <p class="text-gray-600 mb-4">Professional team assists with cryptocurrency tax reporting, compliant with the latest ATO regulations.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20tax%20compliance%20services" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-                
-                <!-- Service Card 5 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Mobile App</h3>
-                    <p class="text-gray-600 mb-4">Full iOS and Android support, manage your crypto assets anytime, anywhere with real-time market monitoring.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20your%20mobile%20app" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-                
-                <!-- Service Card 6 -->
-                <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
-                    <div class="text-primary text-3xl mb-4">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Education Resource Centre</h3>
-                    <p class="text-gray-600 mb-4">Free Australian cryptocurrency education content, from beginner to advanced, help you fully understand digital assets.</p>
-                    <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20access%20your%20education%20resources" 
-                       target="_blank" 
-                       class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Market Updates -->
-    <section id="market" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Australian Crypto Market Updates</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Stay updated with real-time Australian cryptocurrency market trends and regulatory changes</p>
-            </div>
-            
-            <!-- Market Price Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <!-- BTC -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fab fa-bitcoin text-2xl text-orange-500"></i>
-                            <span class="font-semibold text-lg">BTC / AUD</span>
-                        </div>
-                        <span class="text-green-500 font-medium">+2.4%</span>
-                    </div>
-                    <div class="mb-2">
-                        <span class="text-2xl font-bold">$82,540.00</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: 65%"></div>
-                    </div>
-                </div>
-                
-                <!-- ETH -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fab fa-ethereum text-2xl text-blue-400"></i>
-                            <span class="font-semibold text-lg">ETH / AUD</span>
-                        </div>
-                        <span class="text-green-500 font-medium">+1.8%</span>
-                    </div>
-                    <div class="mb-2">
-                        <span class="text-2xl font-bold">$4,320.50</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: 58%"></div>
-                    </div>
-                </div>
-                
-                <!-- SOL -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-s text-2xl text-purple-500"></i>
-                            <span class="font-semibold text-lg">SOL / AUD</span>
-                        </div>
-                        <span class="text-red-500 font-medium">-0.9%</span>
-                    </div>
-                    <div class="mb-2">
-                        <span class="text-2xl font-bold">$98.75</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-red-500 h-2 rounded-full" style="width: 42%"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Latest News -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-custom">
-                    <img src="https://picsum.photos/seed/auscrypto1/800/400" alt="ASIC Crypto Regulatory Update" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="text-xs text-gray-500">15 March 2024</span>
-                        <h3 class="text-xl font-semibold mb-2 mt-2">ASIC Releases New Crypto Trading Platform Regulations</h3>
-                        <p class="text-gray-600 mb-4">The Australian Securities and Investments Commission (ASIC) has updated its regulatory framework for cryptocurrency trading platforms, requiring all platforms to hold an AFS licence...</p>
-                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20read%20the%20full%20article%20about%20ASIC%20crypto%20regulations" 
-                           target="_blank" 
-                           class="text-primary font-medium hover:underline">Read Full Article <i class="fas fa-arrow-right text-sm"></i></a>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-custom">
-                    <img src="https://picsum.photos/seed/auscrypto2/800/400" alt="Australian Banks Crypto Policy" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="text-xs text-gray-500">10 March 2024</span>
-                        <h3 class="text-xl font-semibold mb-2 mt-2">Australia's Big Four Banks Relax Crypto Trading Restrictions</h3>
-                        <p class="text-gray-600 mb-4">Australia's Big Four banks (ANZ, Commonwealth, NAB, Westpac) have adjusted their policies to allow customers to transfer funds to compliant crypto platforms...</p>
-                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20read%20the%20full%20article%20about%20bank%20crypto%20policies" 
-                           target="_blank" 
-                           class="text-primary font-medium hover:underline">Read Full Article <i class="fas fa-arrow-right text-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Frequently Asked Questions -->
-    <section id="faq" class="py-20 bg-white">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Frequently Asked Questions</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Answers to common questions about cryptocurrency trading in Australia</p>
-            </div>
-            
-            <div class="max-w-3xl mx-auto">
-                <!-- FAQ Item 1 -->
-                <div class="faq-item border-b border-gray-200 py-4">
-                    <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
-                        <span>Do I need to pay tax on cryptocurrency trading in Australia?</span>
-                        <i class="fas fa-chevron-down text-primary transition-custom"></i>
-                    </button>
-                    <div class="faq-content hidden mt-3 text-gray-600">
-                        <p>Yes, according to the Australian Taxation Office (ATO), profits from cryptocurrency trading are subject to Capital Gains Tax (CGT). Short-term trades (held for less than 12 months) are taxed at your personal income tax rate, while long-term holdings qualify for a 50% CGT discount. Our platform provides complete trade history export functionality to facilitate your tax reporting.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 2 -->
-                <div class="faq-item border-b border-gray-200 py-4">
-                    <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
-                        <span>Is your platform regulated by ASIC?</span>
-                        <i class="fas fa-chevron-down text-primary transition-custom"></i>
-                    </button>
-                    <div class="faq-content hidden mt-3 text-gray-600">
-                        <p>Yes, we hold an Australian Financial Services (AFS) licence (Licence No: XXXXXXXX) issued by the Australian Securities and Investments Commission (ASIC). We strictly comply with Australian financial regulatory requirements, with client funds completely segregated from operational funds, and professional indemnity insurance to protect user assets.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 3 -->
-                <div class="faq-item border-b border-gray-200 py-4">
-                    <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
-                        <span>How can I deposit AUD into the platform?</span>
-                        <i class="fas fa-chevron-down text-primary transition-custom"></i>
-                    </button>
-                    <div class="faq-content hidden mt-3 text-gray-600">
-                        <p>We support multiple AUD deposit methods: BPAY, Bank Transfer, POLi Payment, and Debit/Credit Card. BPAY and Bank Transfers are fee-free with real-time settlement; POLi Payments are instant with a 0.5% fee; Credit Card payments are instant with an 1.8% fee. All deposit methods support major Australian banks.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 4 -->
-                <div class="faq-item border-b border-gray-200 py-4">
-                    <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
-                        <span>Which cryptocurrencies does the platform support?</span>
-                        <i class="fas fa-chevron-down text-primary transition-custom"></i>
-                    </button>
-                    <div class="faq-content hidden mt-3 text-gray-600">
-                        <p>We support over 50 major cryptocurrencies for exchange with AUD, including BTC, ETH, SOL, ADA, XRP, DOT and more. All trading pairs offer deep liquidity with spreads as low as 0.05%, and VIP rates are available for large volume trades.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 5 -->
-                <div class="faq-item border-b border-gray-200 py-4">
-                    <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
-                        <span>Can non-Australian residents use the platform?</span>
-                        <i class="fas fa-chevron-down text-primary transition-custom"></i>
-                    </button>
-                    <div class="faq-content hidden mt-3 text-gray-600">
-                        <p>Our services are primarily for Australian residents and holders of valid Australian visas. Users are required to complete KYC verification, providing Australian address proof and valid identification documents. Non-Australian residents may use the platform if they provide relevant documents compliant with anti-money laundering regulations and adhere to the laws of their country/region of residence.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WhatsApp Contact CTA Section -->
-    <section id="signup" class="py-20 bg-gradient-to-r from-whatsapp to-green-500 text-white">
-        <div class="container mx-auto px-4 md:px-8 text-center">
-            <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6">Contact Me on WhatsApp</h2>
-            <p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                Whether you have any questions about cryptocurrencies or collaboration opportunities, 
-                you can contact me anytime via WhatsApp. Our professional team is available 24/7 to assist you.
-            </p>
-            <!-- WhatsApp Button with Pre-filled Welcome Message -->
-            <a href="https://wa.me/+61412345678?text=Hello!%20I%20would%20like%20to%20enquire%20about%20your%20cryptocurrency%20services%20in%20Australia" 
-               target="_blank" 
-               class="bg-white text-whatsapp px-8 py-4 rounded-lg hover:bg-white/90 transition-custom font-semibold inline-block flex items-center gap-2 mx-auto text-lg">
-                <i class="fab fa-whatsapp text-xl"></i>
-                Contact Me on WhatsApp Now
-            </a>
-            <p class="mt-6 text-white/80 text-sm">
-                ASIC Regulated | Australian Local Operation | Fund Security Guarantee | Privacy Protection
-            </p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-12">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-secondary text-2xl font-bold">AU</span>
-                        <span class="font-semibold text-xl">Crypto Hub</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">
-                        Australia's leading compliant cryptocurrency service platform, providing secure and convenient digital asset trading experiences for Australian users.
-                    </p>
-                    <div class="flex gap-4">
-                        <!-- WhatsApp Social Icon with Direct Link -->
-                        <a href="https://wa.me/+61412345678" 
-                           target="_blank" 
-                           class="text-gray-400 hover:text-whatsapp transition-custom">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="font-semibold text-lg mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">Home</a></li>
-                        <li><a href="#services" class="text-gray-400 hover:text-white transition-custom">Core Services</a></li>
-                        <li><a href="#market" class="text-gray-400 hover:text-white transition-custom">Market Updates</a></li>
-                        <li><a href="#faq" class="text-gray-400 hover:text-white transition-custom">FAQs</a></li>
+                <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4 text-dark">Access Restricted</h1>
+                <p class="text-gray-600 mb-8 text-lg">
+                    This service is exclusively available to users located in Australia. 
+                    Our platform is regulated by ASIC and designed specifically for Australian residents.
+                </p>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-semibold text-lg mb-2">Why am I seeing this?</h3>
+                    <ul class="text-gray-600 text-left space-y-2 mb-4">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                            <span>Your IP address is not registered in Australia</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                            <span>You may be using a VPN/proxy service that masks your real location</span>
+                        </li>
                     </ul>
+                    <p class="text-gray-500 text-sm">
+                        If you believe this is an error, please contact our support team with your Australian identification documents.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页面内容 -->
+    <div id="pageContent">
+        <!-- Navigation Bar -->
+        <header id="navbar" class="fixed w-full top-0 z-50 transition-custom py-4">
+            <div class="container mx-auto px-4 md:px-8 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <span class="text-primary text-2xl font-bold">AU</span>
+                    <span class="text-dark font-semibold text-xl">Crypto Hub</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="font-medium hover:text-primary transition-custom">Home</a>
+                    <a href="#services" class="font-medium hover:text-primary transition-custom">Core Services</a>
+                    <a href="#market" class="font-medium hover:text-primary transition-custom">Market Updates</a>
+                    <a href="#faq" class="font-medium hover:text-primary transition-custom">FAQs</a>
+                    <!-- WhatsApp Contact Button with Direct Link -->
+                    <a href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20your%20cryptocurrency%20services" 
+                       target="_blank" 
+                       class="bg-whatsapp text-white px-6 py-2 rounded-lg hover:bg-whatsapp/90 transition-custom font-medium">
+                        <i class="fab fa-whatsapp mr-2"></i>Contact Us
+                    </a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden text-dark text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="md:hidden hidden bg-white absolute w-full top-full left-0 shadow-lg py-4 px-4">
+                <nav class="flex flex-col gap-4">
+                    <a href="#home" class="font-medium py-2 hover:text-primary transition-custom">Home</a>
+                    <a href="#services" class="font-medium py-2 hover:text-primary transition-custom">Core Services</a>
+                    <a href="#market" class="font-medium py-2 hover:text-primary transition-custom">Market Updates</a>
+                    <a href="#faq" class="font-medium py-2 hover:text-primary transition-custom">FAQs</a>
+                    <!-- WhatsApp Contact Button with Direct Link -->
+                    <a href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20your%20cryptocurrency%20services" 
+                       target="_blank" 
+                       class="bg-whatsapp text-white px-6 py-3 rounded-lg hover:bg-whatsapp/90 transition-custom font-medium text-center">
+                        <i class="fab fa-whatsapp mr-2"></i>Contact Us
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="home" class="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-light to-white">
+            <div class="container mx-auto px-4 md:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow mb-6">
+                            Australia's <span class="text-primary">Cryptocurrency</span>
+                            <br>One-Stop Service Platform
+                        </h1>
+                        <p class="text-lg text-gray-600 mb-8 max-w-lg">
+                            Compliant cryptocurrency trading, custody and investment services tailored for Australian users. 
+                            Regulated by ASIC, secure and reliable, start your digital asset journey with ease.
+                        </p>
+                        <!-- WhatsApp Button with Pre-filled Message -->
+                        <div class="flex justify-center sm:justify-start">
+                            <!-- 修改：将button改为a标签，直接使用href跳转，更符合语义和用户体验 -->
+                            <a id="contactButton" 
+                               href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20crypto%20services"
+                               target="_blank"
+                               class="bg-whatsapp text-white px-8 py-3 rounded-lg hover:bg-whatsapp/90 transition-custom font-semibold text-center flex items-center gap-2">
+                                <i class="fab fa-whatsapp"></i>
+                                Contact Me on WhatsApp
+                            </a>
+                        </div>
+                        <!-- Trust Indicators -->
+                        <div class="mt-12 flex flex-col gap-4">
+                            <p class="text-sm text-gray-500">Trusted by Australian users and institutions</p>
+                            <div class="flex flex-wrap gap-6 items-center">
+                                <span class="text-gray-400 text-sm">ASIC Regulated</span>
+                                <span class="text-gray-400 text-sm">Australian Local Team</span>
+                                <span class="text-gray-400 text-sm">1M+ Users</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://picsum.photos/seed/aucrypto/800/600" alt="Australian Cryptocurrency Trading Platform" class="rounded-xl shadow-2xl w-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Services -->
+        <section id="services" class="py-20 bg-white">
+            <div class="container mx-auto px-4 md:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Our Core Services</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Tailored cryptocurrency solutions for the Australian market - compliant, secure and convenient</p>
                 </div>
                 
-                <div>
-                    <h3 class="font-semibold text-lg mb-4">Legal Information</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Terms of Service</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Risk Disclosure</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Compliance Statement</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Cookie Policy</a></li>
-                    </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Compliant Crypto Trading</h3>
+                        <p class="text-gray-600 mb-4">Instant AUD to major cryptocurrency exchange, strictly regulated by ASIC with trading fees as low as 0.1%.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20compliant%20crypto%20trading" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                    
+                    <!-- Service Card 2 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Secure Asset Custody</h3>
+                        <p class="text-gray-600 mb-4">Australian local cold wallet storage, multi-signature verification, asset insurance coverage to protect your digital assets.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20secure%20asset%20custody" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                    
+                    <!-- Service Card 3 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Investment Advisory</h3>
+                        <p class="text-gray-600 mb-4">Licensed Australian financial advisors provide crypto asset allocation advice to help you make informed investment decisions.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20investment%20advisory%20services" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                    
+                    <!-- Service Card 4 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Tax Compliance Services</h3>
+                        <p class="text-gray-600 mb-4">Professional team assists with cryptocurrency tax reporting, compliant with the latest ATO regulations.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20tax%20compliance%20services" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                    
+                    <!-- Service Card 5 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Mobile App</h3>
+                        <p class="text-gray-600 mb-4">Full iOS and Android support, manage your crypto assets anytime, anywhere with real-time market monitoring.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20know%20more%20about%20your%20mobile%20app" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                    
+                    <!-- Service Card 6 -->
+                    <div class="bg-light rounded-xl p-8 hover:shadow-lg transition-custom border border-gray-100">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Education Resource Centre</h3>
+                        <p class="text-gray-600 mb-4">Free Australian cryptocurrency education content, from beginner to advanced, help you fully understand digital assets.</p>
+                        <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20access%20your%20education%20resources" 
+                           target="_blank" 
+                           class="text-primary font-medium hover:underline">Learn More <i class="fas fa-arrow-right text-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Updates -->
+        <section id="market" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 md:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Australian Crypto Market Updates</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Stay updated with real-time Australian cryptocurrency market trends and regulatory changes</p>
                 </div>
                 
-                <div>
-                    <h3 class="font-semibold text-lg mb-4">Contact Us</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-2 text-gray-400">
-                            <i class="fab fa-whatsapp text-whatsapp"></i>
-                            <!-- WhatsApp Contact Link -->
+                <!-- Market Price Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <!-- BTC -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-bitcoin text-2xl text-orange-500"></i>
+                                <span class="font-semibold text-lg">BTC / AUD</span>
+                            </div>
+                            <span class="text-green-500 font-medium">+2.4%</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="text-2xl font-bold">$82,540.00</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- ETH -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-ethereum text-2xl text-blue-400"></i>
+                                <span class="font-semibold text-lg">ETH / AUD</span>
+                            </div>
+                            <span class="text-green-500 font-medium">+1.8%</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="text-2xl font-bold">$4,320.50</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 58%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- SOL -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-s text-2xl text-purple-500"></i>
+                                <span class="font-semibold text-lg">SOL / AUD</span>
+                            </div>
+                            <span class="text-red-500 font-medium">-0.9%</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="text-2xl font-bold">$98.75</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-red-500 h-2 rounded-full" style="width: 42%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Latest News -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-custom">
+                        <img src="https://picsum.photos/seed/auscrypto1/800/400" alt="ASIC Crypto Regulatory Update" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs text-gray-500">15 March 2024</span>
+                            <h3 class="text-xl font-semibold mb-2 mt-2">ASIC Releases New Crypto Trading Platform Regulations</h3>
+                            <p class="text-gray-600 mb-4">The Australian Securities and Investments Commission (ASIC) has updated its regulatory framework for cryptocurrency trading platforms, requiring all platforms to hold an AFS licence...</p>
+                            <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20read%20the%20full%20article%20about%20ASIC%20crypto%20regulations" 
+                               target="_blank" 
+                               class="text-primary font-medium hover:underline">Read Full Article <i class="fas fa-arrow-right text-sm"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-custom">
+                        <img src="https://picsum.photos/seed/auscrypto2/800/400" alt="Australian Banks Crypto Policy" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs text-gray-500">10 March 2024</span>
+                            <h3 class="text-xl font-semibold mb-2 mt-2">Australia's Big Four Banks Relax Crypto Trading Restrictions</h3>
+                            <p class="text-gray-600 mb-4">Australia's Big Four banks (ANZ, Commonwealth, NAB, Westpac) have adjusted their policies to allow customers to transfer funds to compliant crypto platforms...</p>
+                            <a href="https://wa.me/+61412345678?text=I'd%20like%20to%20read%20the%20full%20article%20about%20bank%20crypto%20policies" 
+                               target="_blank" 
+                               class="text-primary font-medium hover:underline">Read Full Article <i class="fas fa-arrow-right text-sm"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frequently Asked Questions -->
+        <section id="faq" class="py-20 bg-white">
+            <div class="container mx-auto px-4 md:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-4">Frequently Asked Questions</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Answers to common questions about cryptocurrency trading in Australia</p>
+                </div>
+                
+                <div class="max-w-3xl mx-auto">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item border-b border-gray-200 py-4">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
+                            <span>Do I need to pay tax on cryptocurrency trading in Australia?</span>
+                            <i class="fas fa-chevron-down text-primary transition-custom"></i>
+                        </button>
+                        <div class="faq-content hidden mt-3 text-gray-600">
+                            <p>Yes, according to the Australian Taxation Office (ATO), profits from cryptocurrency trading are subject to Capital Gains Tax (CGT). Short-term trades (held for less than 12 months) are taxed at your personal income tax rate, while long-term holdings qualify for a 50% CGT discount. Our platform provides complete trade history export functionality to facilitate your tax reporting.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item border-b border-gray-200 py-4">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
+                            <span>Is your platform regulated by ASIC?</span>
+                            <i class="fas fa-chevron-down text-primary transition-custom"></i>
+                        </button>
+                        <div class="faq-content hidden mt-3 text-gray-600">
+                            <p>Yes, we hold an Australian Financial Services (AFS) licence (Licence No: XXXXXXXX) issued by the Australian Securities and Investments Commission (ASIC). We strictly comply with Australian financial regulatory requirements, with client funds completely segregated from operational funds, and professional indemnity insurance to protect user assets.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item border-b border-gray-200 py-4">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
+                            <span>How can I deposit AUD into the platform?</span>
+                            <i class="fas fa-chevron-down text-primary transition-custom"></i>
+                        </button>
+                        <div class="faq-content hidden mt-3 text-gray-600">
+                            <p>We support multiple AUD deposit methods: BPAY, Bank Transfer, POLi Payment, and Debit/Credit Card. BPAY and Bank Transfers are fee-free with real-time settlement; POLi Payments are instant with a 0.5% fee; Credit Card payments are instant with an 1.8% fee. All deposit methods support major Australian banks.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item border-b border-gray-200 py-4">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
+                            <span>Which cryptocurrencies does the platform support?</span>
+                            <i class="fas fa-chevron-down text-primary transition-custom"></i>
+                        </button>
+                        <div class="faq-content hidden mt-3 text-gray-600">
+                            <p>We support over 50 major cryptocurrencies for exchange with AUD, including BTC, ETH, SOL, ADA, XRP, DOT and more. All trading pairs offer deep liquidity with spreads as low as 0.05%, and VIP rates are available for large volume trades.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="faq-item border-b border-gray-200 py-4">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left font-semibold text-lg">
+                            <span>Can non-Australian residents use the platform?</span>
+                            <i class="fas fa-chevron-down text-primary transition-custom"></i>
+                        </button>
+                        <div class="faq-content hidden mt-3 text-gray-600">
+                            <p>Our services are primarily for Australian residents and holders of valid Australian visas. Users are required to complete KYC verification, providing Australian address proof and valid identification documents. Non-Australian residents may use the platform if they provide relevant documents compliant with anti-money laundering regulations and adhere to the laws of their country/region of residence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WhatsApp Contact CTA Section -->
+        <section id="signup" class="py-20 bg-gradient-to-r from-whatsapp to-green-500 text-white">
+            <div class="container mx-auto px-4 md:px-8 text-center">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6">Contact Me on WhatsApp</h2>
+                <p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+                    Whether you have any questions about cryptocurrencies or collaboration opportunities, 
+                    you can contact me anytime via WhatsApp. Our professional team is available 24/7 to assist you.
+                </p>
+                <!-- WhatsApp Button with Pre-filled Welcome Message -->
+                <a href="https://wa.me/+61412345678?text=Hello!%20I%20would%20like%20to%20enquire%20about%20your%20cryptocurrency%20services%20in%20Australia" 
+                   target="_blank" 
+                   class="bg-white text-whatsapp px-8 py-4 rounded-lg hover:bg-white/90 transition-custom font-semibold inline-block flex items-center gap-2 mx-auto text-lg">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    Contact Me on WhatsApp Now
+                </a>
+                <p class="mt-6 text-white/80 text-sm">
+                    ASIC Regulated | Australian Local Operation | Fund Security Guarantee | Privacy Protection
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white py-12">
+            <div class="container mx-auto px-4 md:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-secondary text-2xl font-bold">AU</span>
+                            <span class="font-semibold text-xl">Crypto Hub</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">
+                            Australia's leading compliant cryptocurrency service platform, providing secure and convenient digital asset trading experiences for Australian users.
+                        </p>
+                        <div class="flex gap-4">
+                            <!-- WhatsApp Social Icon with Direct Link -->
                             <a href="https://wa.me/+61412345678" 
                                target="_blank" 
-                               class="hover:text-white transition-custom">+61 412 345 678</a>
-                        </li>
-                        <li class="flex items-center gap-2 text-gray-400">
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:support@aucryptohub.com" class="hover:text-white transition-custom">support@aucryptohub.com</a>
-                        </li>
-                        <li class="flex items-center gap-2 text-gray-400">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Melbourne VIC 3000</span>
-                        </li>
-                    </ul>
+                               class="text-gray-400 hover:text-whatsapp transition-custom">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-4">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">Home</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-custom">Core Services</a></li>
+                            <li><a href="#market" class="text-gray-400 hover:text-white transition-custom">Market Updates</a></li>
+                            <li><a href="#faq" class="text-gray-400 hover:text-white transition-custom">FAQs</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-4">Legal Information</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Terms of Service</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Risk Disclosure</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Compliance Statement</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-4">Contact Us</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <i class="fab fa-whatsapp text-whatsapp"></i>
+                                <!-- WhatsApp Contact Link -->
+                                <a href="https://wa.me/+61412345678" 
+                                   target="_blank" 
+                                   class="hover:text-white transition-custom">+61 412 345 678</a>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:support@aucryptohub.com" class="hover:text-white transition-custom">support@aucryptohub.com</a>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Melbourne VIC 3000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8 mt-8 text-center text-gray-500 text-sm">
+                    <p>© 2024 AU Crypto Hub Pty Ltd. ABN: XXXXXXXX | AFS License: XXXXXXXX</p>
+                    <p class="mt-2">Cryptocurrency trading involves high risk, and price volatility may result in significant losses. Please fully understand the relevant risks before trading.</p>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 mt-8 text-center text-gray-500 text-sm">
-                <p>© 2024 AU Crypto Hub Pty Ltd. ABN: XXXXXXXX | AFS License: XXXXXXXX</p>
-                <p class="mt-2">Cryptocurrency trading involves high risk, and price volatility may result in significant losses. Please fully understand the relevant risks before trading.</p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <!-- JavaScript -->
     <script>
-        // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('nav-scrolled');
-            } else {
-                navbar.classList.remove('nav-scrolled');
-            }
-        });
-        
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            // Toggle Icon
-            const icon = menuBtn.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.replace('fa-bars', 'fa-times');
-            } else {
-                icon.classList.replace('fa-times', 'fa-bars');
-            }
-        });
-        
-        // FAQ Toggle Functionality
-        const faqToggles = document.querySelectorAll('.faq-toggle');
-        faqToggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const content = toggle.nextElementSibling;
-                const icon = toggle.querySelector('i');
+        // ====================== IP地域验证核心逻辑 ======================
+        async function checkIPLocation() {
+            try {
+                // 使用ipapi.co获取IP属地信息（免费、无需API密钥）
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
                 
-                // Toggle Current FAQ
-                content.classList.toggle('hidden');
-                icon.classList.toggle('rotate-180');
-                
-                // Close Other FAQs
-                faqToggles.forEach(otherToggle => {
-                    if (otherToggle !== toggle) {
-                        const otherContent = otherToggle.nextElementSibling;
-                        const otherIcon = otherToggle.querySelector('i');
+                // 验证国家代码是否为澳大利亚 (AU)
+                if (data.country_code === 'AU') {
+                    // 显示主页面内容
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('pageContent').style.display = 'block';
+                    // 执行原页面的初始化逻辑
+                    initPageFunctions();
+                } else {
+                    // 显示访问受限页面
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('accessRestricted').style.display = 'block';
+                }
+            } catch (error) {
+                // API调用失败时的备用方案：显示访问受限
+                console.error('IP验证失败:', error);
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.getElementById('accessRestricted').style.display = 'block';
+            }
+        }
+
+        // 原页面的所有初始化函数
+        function initPageFunctions() {
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            });
+            
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                // Toggle Icon
+                const icon = menuBtn.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                }
+            });
+            
+            // FAQ Toggle Functionality
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('i');
+                    
+                    // Toggle Current FAQ
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                    
+                    // Close Other FAQs
+                    faqToggles.forEach(otherToggle => {
+                        if (otherToggle !== toggle) {
+                            const otherContent = otherToggle.nextElementSibling;
+                            const otherIcon = otherToggle.querySelector('i');
+                            otherContent.classList.add('hidden');
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+        }
+
+        // 页面加载完成后立即执行IP验证
+        window.addEventListener('DOMContentLoaded', checkIPLocation);
+    </script>
+</body>
+</html>
