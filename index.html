@@ -138,12 +138,12 @@
                     </p>
                     <!-- WhatsApp Button with Pre-filled Message -->
                     <div class="flex justify-center sm:justify-start">
-                        <a href="https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20crypto%20services" 
-                           target="_blank" 
+                        <!-- 添加ID用于事件追踪的联系按钮 -->
+                        <button id="contactButton" 
                            class="bg-whatsapp text-white px-8 py-3 rounded-lg hover:bg-whatsapp/90 transition-custom font-semibold text-center flex items-center gap-2">
                             <i class="fab fa-whatsapp"></i>
                             Contact Me on WhatsApp
-                        </a>
+                        </button>
                     </div>
                     <!-- Trust Indicators -->
                     <div class="mt-12 flex flex-col gap-4">
@@ -578,6 +578,21 @@
                 }
             });
         });
+
+        // Contact Button Click Event with Meta Pixel Tracking
+        document.getElementById('contactButton').addEventListener('click', function() {
+            // 1. 触发Facebook Meta Pixel的Contact事件（标准转化事件）
+            fbq('track', 'Contact', {
+                content_name: 'WhatsApp Contact',
+                content_category: 'Crypto Service Enquiry',
+                currency: 'AUD',
+                value: 0.00
+            });
+            
+            // 2. 跳转到WhatsApp（保留原有功能）
+            window.open('https://wa.me/+61412345678?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20your%20crypto%20services', '_blank');
+            
+        }, false);
     </script>
 </body>
 </html>
